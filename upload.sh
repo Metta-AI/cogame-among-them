@@ -13,8 +13,6 @@ METTA_REPO="${METTA_REPO:-${DEFAULT_METTA_REPO}}"
 COWORLD_SERVER="${COWORLD_SERVER:-https://softmax.com/api}"
 REGISTRY="${REGISTRY:-ghcr.io/metta-ai}"
 CERTIFY_TIMEOUT="${CERTIFY_TIMEOUT:-180}"
-COWORLD_COMPOSE="${COWORLD_COMPOSE:-${METTA_REPO}/worlds/among_them/compose.yaml}"
-COWORLD_TEMPLATE="${COWORLD_TEMPLATE:-${METTA_REPO}/worlds/among_them/coworld_manifest_template.json}"
 
 VERSION=""
 RUN_GIT_PULL=1
@@ -46,8 +44,6 @@ Environment:
   COWORLD_SERVER         Observatory API URL.
   REGISTRY               GHCR registry prefix, default ghcr.io/metta-ai.
   CERTIFY_TIMEOUT        Coworld certifier timeout seconds.
-  COWORLD_COMPOSE        Metta Coworld compose.yaml path.
-  COWORLD_TEMPLATE       Metta Coworld manifest template path.
   GHCR_USERNAME          Optional GHCR username.
   GHCR_TOKEN             Optional GHCR token. If omitted, gh auth token is used.
 
@@ -217,17 +213,13 @@ upload_coworld() {
     return
   fi
 
-  [[ -f "${COWORLD_COMPOSE}" ]] || die "Coworld compose file not found: ${COWORLD_COMPOSE}"
-  [[ -f "${COWORLD_TEMPLATE}" ]] || die "Coworld manifest template not found: ${COWORLD_TEMPLATE}"
-
   local build_log="${WORK_DIR}/coworld-build.log"
   log "Building Coworld manifest and images with Metta coworld build"
   set +e
   coworld build \
-    "${COWORLD_COMPOSE}" \
-    "${COWORLD_TEMPLATE}" \
-    "${VERSION}" \
-    "${UPLOAD_MANIFEST}" 2>&1 | tee "${build_log}"
+    --project "${REPO_ROOT}" \
+    --version "${VERSION}" \
+    --output "${UPLOAD_MANIFEST}" 2>&1 | tee "${build_log}"
   local build_status="${PIPESTATUS[0]}"
   set -e
   [[ "${build_status}" -eq 0 ]] || die "coworld build failed. See ${build_log}"

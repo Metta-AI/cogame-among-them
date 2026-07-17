@@ -20,6 +20,7 @@ nim.cfg
 *.ilk
 *.out
 out/
+dist/
 tmp/
 __pycache__/
 *.pyc
