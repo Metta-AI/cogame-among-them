@@ -35,5 +35,7 @@ services:
       context: diagnoser/diagnosers/among_them/among_them_diagnoser
       dockerfile: Dockerfile
   optimizer:
-    image: ghcr.io/metta-ai/coworld-optimizer:latest
+    image: coworld-optimizer:latest
     platform: linux/amd64
+    build:
+      context: https://github.com/Metta-AI/optimizers.git#130c2348d1113244d243948fbc23cbd4e37fa479
