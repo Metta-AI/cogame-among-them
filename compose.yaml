@@ -1,0 +1,39 @@
+services:
+  game:
+    image: coworld-among-them-game:latest
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+  player:
+    image: coworld-among-them-ivotewell:latest
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: players/ivotewell/Dockerfile
+      network: host
+  commissioner:
+    image: coworld-among-them-commissioner:latest
+    platform: linux/amd64
+    build:
+      context: commissioner
+      dockerfile: commissioners/Dockerfile
+      args:
+        COMMISSIONER_KEY: config_driven
+        RULESET_STRATEGY_CONFIG_NAME: among_them
+  grader:
+    image: coworld-among-them-grader:latest
+    platform: linux/amd64
+    build:
+      context: grader
+      dockerfile: graders/among_them/among_them_grader/Dockerfile
+  diagnoser:
+    image: coworld-among-them-diagnoser:latest
+    platform: linux/amd64
+    build:
+      context: diagnoser/diagnosers/among_them/among_them_diagnoser
+      dockerfile: Dockerfile
+  optimizer:
+    image: ghcr.io/metta-ai/coworld-optimizer:latest
+    platform: linux/amd64

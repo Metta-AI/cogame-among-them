@@ -1,25 +1,5 @@
 # Among Them
 
-<!-- COWORLD-VERIFY-BADGE:START -->
-![Coworld verify: failed](https://img.shields.io/badge/coworld%20verify-failed-red)
-<!-- COWORLD-VERIFY-BADGE:END -->
-
-
-<!-- COWORLD-REPO-STATUS:START -->
-> [!NOTE]
-> Coworld repo status: **incomplete** (`coworld-incomplete`).
-> Canonical repository: `Metta-AI/coworld-among-them`.
-> Manifest path: `coworld_manifest.json`.
-> Build path: `Dockerfile`
-> Certification: blocked until `uv run coworld certify coworld_manifest.json` passes and the result is recorded.
->
-> Missing pieces:
-> - [ ] Validate the root concrete manifest against the current Coworld schema.
-> - [ ] Run `uv run coworld certify coworld_manifest.json` with the bundled players.
-> - [ ] Switch the repo topic to `coworld-complete` after certification passes.
-<!-- COWORLD-REPO-STATUS:END -->
-
-
 Among Them is an uploaded Coworld social deduction game. Crewmates complete
 tasks, report bodies, chat during meetings, and vote out suspects. Imposters
 blend in, use cooldown-limited kills, and survive the vote.
@@ -55,7 +35,7 @@ package:
 - Runner contract:
   <https://github.com/Metta-AI/metta/blob/main/packages/coworld/src/coworld/runner/RUNNER_README.md>
 
-The uploaded Coworld manifest is `coworld_manifest.json`. It defines
+The Coworld source manifest is `coworld_manifest_template.json`. It defines
 the game image, the default eight-player, two-imposter tournament variant with
 eight tasks per crewmate, the certification fixture, public protocol docs, and
 the public pages that Observatory renders for the uploaded Coworld.
@@ -192,28 +172,12 @@ nim r among_them.nim
 
 ### Coworld Certification
 
-Certification is for Coworld authors changing the game package. From the
-repository root, build the local game and baseline player images before running
-the certifier:
+The repository owns every image build and the manifest template. From the repository root:
 
 ```sh
-docker build \
-  --platform=linux/amd64 \
-  -f Dockerfile \
-  -t public.ecr.aws/s3j4p9s7/treeform/games/among-them:latest \
-  .
-docker build \
-  --platform=linux/amd64 \
-  -f players/nottoodumb/Dockerfile \
-  -t public.ecr.aws/s3j4p9s7/treeform/players/nottoodumb:latest \
-  .
-coworld certify coworld_manifest.json
-```
-
-Upload the certified Coworld with:
-
-```sh
-coworld upload-coworld coworld_manifest.json
+coworld build --version 0.1.46
+coworld certify dist/coworld_manifest.json
+coworld upload-coworld dist/coworld_manifest.json
 ```
 
 For the full production release flow from `master`, including GHCR

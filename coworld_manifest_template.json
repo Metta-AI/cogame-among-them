@@ -2,16 +2,15 @@
   "$schema": "https://raw.githubusercontent.com/Metta-AI/coworld/main/src/coworld/coworld_manifest_schema.json",
   "game": {
     "name": "among_them",
-    "version": "0.1.21",
     "description": "A social deduction BitWorld game with crewmates, imposters, tasks, voting, and betrayal.",
     "owner": "treeform@softmax.com",
     "runnable": {
       "type": "game",
-      "image": "public.ecr.aws/s3j4p9s7/treeform/games/among-them:latest",
+      "image": "{{GAME_IMAGE}}",
       "run": [
         "/bin/among_them"
       ],
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8"
+      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/master"
     },
     "config_schema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -379,7 +378,7 @@
           "title": "Game Source",
           "content": {
             "type": "uri",
-            "value": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8"
+            "value": "https://github.com/Metta-AI/coworld-among-them/tree/master"
           }
         },
         {
@@ -411,7 +410,7 @@
           "title": "optimizer_game_spec.json",
           "content": {
             "type": "uri",
-            "value": "https://github.com/Metta-AI/coworld-among-them/blob/master/coworld_manifest.json"
+            "value": "https://github.com/Metta-AI/coworld-among-them/blob/master/coworld_manifest_template.json"
           }
         },
         {
@@ -475,58 +474,14 @@
   },
   "player": [
     {
-      "id": "evidencebot_v2",
-      "name": "evidencebot_v2",
-      "type": "player",
-      "description": "Stronger deterministic Among Them visual player with evidence tracking and task routing.",
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8/players/evidencebot_v2",
-      "image": "public.ecr.aws/s3j4p9s7/treeform/players/evidencebot-v2:latest",
-      "run": [
-        "/bin/evidencebot_v2"
-      ]
-    },
-    {
-      "id": "italkalot",
-      "name": "italkalot",
-      "type": "player",
-      "description": "LLM-guided Among Them player that talks and votes using live game observations.",
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8/players/italkalot",
-      "image": "public.ecr.aws/s3j4p9s7/treeform/players/italkalot:latest",
-      "run": [
-        "/bin/italkalot"
-      ]
-    },
-    {
       "id": "ivotewell",
       "name": "ivotewell",
       "type": "player",
       "description": "Deterministic Among Them player focused on voting and smoke-test episodes.",
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8/players/ivotewell",
-      "image": "public.ecr.aws/s3j4p9s7/treeform/players/ivotewell:latest",
+      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/master/players/ivotewell",
+      "image": "{{PLAYER_IMAGE}}",
       "run": [
         "/bin/ivotewell"
-      ]
-    },
-    {
-      "id": "lively_lecun",
-      "name": "lively_lecun",
-      "type": "player",
-      "description": "Go-based Among Them visual player inspired by the nottoodumb perception stack.",
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8/players/lively_lecun",
-      "image": "public.ecr.aws/s3j4p9s7/treeform/players/lively-lecun:latest",
-      "run": [
-        "/bin/lively_lecun"
-      ]
-    },
-    {
-      "id": "nottoodumb",
-      "name": "nottoodumb",
-      "type": "player",
-      "description": "Compact deterministic baseline Among Them visual player.",
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/88b612784dcbe3d22af6e10be2fa601a54272bc8/players/nottoodumb",
-      "image": "public.ecr.aws/s3j4p9s7/treeform/players/nottoodumb:latest",
-      "run": [
-        "/bin/nottoodumb"
       ]
     }
   ],
@@ -537,19 +492,10 @@
       "type": "commissioner",
       "description": "Among Them container commissioner. It schedules episodes, computes rankings, moves players between divisions, and handles initial placement.",
       "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/master/commissioner/commissioners/ruleset_strategy_commissioner",
-      "image": "coworld-among-them-commissioner:latest"
+      "image": "{{COMMISSIONER_IMAGE}}"
     }
   ],
-  "reporter": [
-    {
-      "id": "among-them-summarizer",
-      "name": "Among Them Summarizer",
-      "type": "reporter",
-      "description": "Reference Among Them reporter owned by James Boggs. It consumes replay/results artifacts and writes a zip with Markdown, HTML, and JSON for surfaces such as The Column.",
-      "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/master/reporter/among_them/among_them_summarizer",
-      "image": "coworld-among-them-reporter:latest"
-    }
-  ],
+  "reporter": [],
   "grader": [
     {
       "id": "among-them-grader",
@@ -557,7 +503,7 @@
       "type": "grader",
       "description": "Reference Among Them grader owned by Kyle. It consumes replay/results artifacts and emits a scalar creator-interest score for ranking useful episodes.",
       "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/master/grader/graders/among_them/among_them_grader",
-      "image": "coworld-among-them-grader:latest"
+      "image": "{{GRADER_IMAGE}}"
     }
   ],
   "diagnoser": [
@@ -567,7 +513,7 @@
       "type": "diagnoser",
       "description": "Reference Among Them diagnoser owned by Aaron Landy. It consumes a target policy plus episode artifacts and emits policy-assay advice for the coding agent improving that policy.",
       "source_url": "https://github.com/Metta-AI/coworld-among-them/tree/master/diagnoser/diagnosers/among_them/among_them_diagnoser",
-      "image": "coworld-among-them-diagnoser:latest"
+      "image": "{{DIAGNOSER_IMAGE}}"
     }
   ],
   "optimizer": [
@@ -577,7 +523,7 @@
       "type": "optimizer",
       "description": "Game-agnostic optimizer owned by Aaron Landy. It consumes the Coworld manifest, many replay/results artifacts, reporter outputs, grader scores, and diagnoser outputs to drive local policy improvement.",
       "source_url": "https://github.com/Metta-AI/optimizers/tree/130c2348d1113244d243948fbc23cbd4e37fa479",
-      "image": "ghcr.io/metta-ai/coworld-optimizer:latest"
+      "image": "{{OPTIMIZER_IMAGE}}"
     }
   ],
   "variants": [
